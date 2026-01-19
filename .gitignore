@@ -1,4 +1,6 @@
 node_modules/
+.env
+dist/
 build/
 node_modules/
 
@@ -13,6 +15,8 @@ node_modules/
 *.Zone.Identifier
 
 # Environment files (if not already)
+.env
+.env.local
 .terraform/
 .terraform.lock.hcl
 .terraform/
