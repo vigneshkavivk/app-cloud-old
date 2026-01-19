@@ -1,0 +1,68 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowSNSSubscription",
+            "Effect": "Allow",
+            "Action": [
+                "sns:Subscribe",
+                "sns:Unsubscribe",
+                "sns:Receive"
+            ],
+            "Resource": [
+                "arn:aws:sns:ap-south-1:*:prod-sns-platform-order-events-production",
+                "arn:aws:sns:ap-south-1:*:prod-sns-platform-payment-events-production.fifo",
+                "arn:aws:sns:ap-south-1:*:prod-sns-platform-system-alerts-production"
+            ]
+        },
+        {
+            "Sid": "AllowKMSDecryptionForSNS",
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Resource": [
+                "arn:aws:kms:ap-south-1:*:key/*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "kms:ViaService": "sns.ap-south-1.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "AllowCloudWatchLogging",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                "arn:aws:logs:ap-south-1:*:log-group:/aws/lambda/*:*"
+            ]
+        },
+        {
+            "Sid": "AllowSQSAccessForSNS",
+            "Effect": "Allow",
+            "Action": [
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes"
+            ],
+            "Resource": [
+                "arn:aws:sqs:ap-south-1:*:prod-sns-platform-sns-destination-production.fifo"
+            ]
+        },
+        {
+            "Sid": "AllowLambdaInvocation",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:ap-south-1:*:function:prod-sns-platform-*"
+            ]
+        }
+    ]
+}

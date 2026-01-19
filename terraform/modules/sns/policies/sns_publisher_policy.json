@@ -1,0 +1,52 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublishToSNSTopics",
+            "Effect": "Allow",
+            "Action": [
+                "sns:Publish",
+                "sns:GetTopicAttributes"
+            ],
+            "Resource": [
+                "arn:aws:sns:ap-south-1:*:prod-sns-platform-order-events-production",
+                "arn:aws:sns:ap-south-1:*:prod-sns-platform-payment-events-production.fifo",
+                "arn:aws:sns:ap-south-1:*:prod-sns-platform-system-alerts-production"
+            ]
+        },
+        {
+            "Sid": "AllowKMSForSNS",
+            "Effect": "Allow",
+            "Action": [
+                "kms:GenerateDataKey",
+                "kms:Decrypt"
+            ],
+            "Resource": [
+                "arn:aws:kms:ap-south-1:*:key/*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "kms:ViaService": "sns.ap-south-1.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "AllowListTopics",
+            "Effect": "Allow",
+            "Action": [
+                "sns:ListTopics"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowTagging",
+            "Effect": "Allow",
+            "Action": [
+                "sns:TagResource"
+            ],
+            "Resource": [
+                "arn:aws:sns:ap-south-1:*:prod-sns-platform-*"
+            ]
+        }
+    ]
+}

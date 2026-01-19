@@ -1,0 +1,1 @@
+export const __API_URL__ = "http://localhost:5173"
